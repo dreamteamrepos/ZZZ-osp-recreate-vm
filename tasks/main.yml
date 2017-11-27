@@ -1,37 +1,43 @@
 ---
 # tasks file for osp-recreate-vm
 
-  - name: talk to the api and get auth
+  - name: Get current OSP-related Bash env vars
+    shell: "env | grep OS_"
+    register: osp_vars
+    changed_when: false
+
+  - name: Print current OSP-related Bash env vars (for debugging, if required)
+    debug:
+      var: osp_vars.stdout_lines
+    changed_when: false
+
+  - name: Ensuring authentication can occur with current OSP-related Bash env vars
     os_auth:
-      cert:
-      key:
-      cacert:
-      region_name:
+      auth_type: password
+    changed_when: false
 
   - name: get facts about about the VM's
     os_server_facts:
-      cert:
-      key:
-      cacert:
-      region_name:
-      server: web
+      auth: "{{ osp_recreate_vm.auth }}"
+      cert: "{{ user_cert }}" 
+      key: "{{ user_key }}"
+      cacert: "{{ user_cacert }}"
+      region_name: "{{ region }}"
+      server: "{{ user_server }}"
     debug:
       var: openstack_servers
     register: found_vm
 
   - name: create VM if is not there
     os_server_action:
-      cert:
-      key:
-      cacert:
-      region_name:
+      cert: "{{ user_cert }}"
+      key: "{{ user_key }}"
+      cacert: "{{ user_cacert }}"
+      region_name: "{{ osp_recreate_vm.region_name }}"
       action: rebuild
-      auth:
-        auth_url: https://my-osp.com:5001/v2.0
-        username:
-        password:
-      project_name:
-      server: web
+      auth: "{{ osp_recreate_vm.auth }}"
+      project_name: "{{ osp_recreate_vm.project_name }}"
+      server: "{{ osp_recreate_vm.vm1 }}"
 
 
 ~                           
