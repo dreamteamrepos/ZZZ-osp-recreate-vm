@@ -9,6 +9,7 @@ Requirements
 
 Role Variables
 --------------
+```
 osp_recreate_vm:
   api:
     auth:
@@ -16,26 +17,23 @@ osp_recreate_vm:
       username: "admin"
       password: "{{ keystone_admin_password }}"
       project_name: "admin"
+      user_domain_name: "Default"
     auth_type: "password"
     endpoint_type: "admin"
     region_name: "RegionOne"
     keystone_version: "2"
     projecT_name: "admin"
   vm:
-    - vm1:
-        name:
-        image:
-        key_name:
-        flavor:
-        region_name:
-        availability_zone:
-        key_name:
-        flavor:
-        security_groups:
-        auto_ip:
-        server:
-        image:                             
+    test:
+      action: rebuild            # The action you want to take with the VM. In this case it Will be rebuild.
+      server: test               # Name of the Sever to recreate
+      image: hadoop              # Name or ID of the Image
 
+    other_vm:
+      action:
+      server:
+      image:
+```
 Dependencies
 ------------
 

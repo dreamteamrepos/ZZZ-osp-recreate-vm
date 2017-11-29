@@ -16,28 +16,12 @@
       auth_type: password
     changed_when: false
 
-  - name: get facts about about the VM's
-    os_server_facts:
-      auth: "{{ osp_recreate_vm.auth }}"
-      cert: "{{ user_cert }}" 
-      key: "{{ user_key }}"
-      cacert: "{{ user_cacert }}"
-      region_name: "{{ region }}"
-      server: "{{ user_server }}"
-    debug:
-      var: openstack_servers
-    register: found_vm
-
-  - name: create VM if is not there
+  - name: Recreate a VM
     os_server_action:
-      cert: "{{ user_cert }}"
-      key: "{{ user_key }}"
-      cacert: "{{ user_cacert }}"
-      region_name: "{{ osp_recreate_vm.region_name }}"
-      action: rebuild
-      auth: "{{ osp_recreate_vm.auth }}"
-      project_name: "{{ osp_recreate_vm.project_name }}"
-      server: "{{ osp_recreate_vm.vm1 }}"
-
-
+      action: "{{ item.value.action }}"
+      server: "{{ item.key }}"
+      auth:  "{{ osp_recreate_vm.api.auth }}"
+      endpoint_type: "{{ osp_recreate_vm.api.endpoint_type }}"
+      image: "{{ item.value.image }}"
+    with_dict:  "{{ osp_recreate_vm.vm }}"
 ~                           
