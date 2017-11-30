@@ -2,7 +2,7 @@ Role Name
 =========
 
 Recreates a VM that has already been created.
-
+Module doc http://docs.ansible.com/ansible/latest/os_server_action_module.html
 Requirements
 ------------
 
