@@ -1,31 +1,46 @@
 Role Name
 =========
 
-A brief description of the role goes here.
-
+Recreates a VM that has already been created.
+Module doc http://docs.ansible.com/ansible/latest/os_server_action_module.html
 Requirements
 ------------
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
 
 Role Variables
 --------------
+```
+osp_recreate_vm:
+  api:
+    auth:
+      auth_url: "http://192.168.0.1:35357/v.20"
+      username: "admin"
+      password: "{{ keystone_admin_password }}"
+      project_name: "admin"
+      user_domain_name: "Default"
+    auth_type: "password"
+    endpoint_type: "admin"
+    region_name: "RegionOne"
+    keystone_version: "2"
+    projecT_name: "admin"
+  vm:
+    test:
+      action: rebuild            # The action you want to take with the VM. In this case it Will be rebuild.
+      server: test               # Name of the Sever to recreate
+      image: hadoop              # Name or ID of the Image
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
-
+    other_vm:
+      action:
+      server:
+      image:
+```
 Dependencies
 ------------
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
 
 Example Playbook
 ----------------
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
-
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
 
 License
 -------
